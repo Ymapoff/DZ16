@@ -12,9 +12,9 @@ public class GameTest {
         game.register(mutant);
         game.register(human);
         int expected = 1;
-        int actual = game.round("мутант","человек");
+        int actual = game.round("мутант", "человек");
 
-        Assertions.assertEquals(expected , actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
@@ -26,8 +26,46 @@ public class GameTest {
         game.register(mutant);
         game.register(human);
         int expected = 2;
-        int actual = game.round("мутант","человек");
+        int actual = game.round("мутант", "человек");
 
-        Assertions.assertEquals(expected , actual);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void nobodyNotWin() {
+        Player mutant = new Player(1, "мутант", 200);
+        Player human = new Player(2, "человек", 200);
+        Game game = new Game();
+
+        game.register(mutant);
+        game.register(human);
+        int expected = 0;
+        int actual = game.round("мутант", "человек");
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void firstPlayerNotRegisterer() {
+        Player mutant = new Player(1, "мутант", 200);
+        Player human = new Player(2, "человек", 200);
+        Game game = new Game();
+
+        game.register(mutant);
+        game.register(human);
+
+        Assertions.assertThrows(NotRegisteredException.class, () -> game.round("гуманоид", "человек"));
+    }
+
+    @Test
+    public void secondPlayerNotRegisterer() {
+        Player mutant = new Player(1, "мутант", 200);
+        Player human = new Player(2, "человек", 200);
+        Game game = new Game();
+
+        game.register(mutant);
+        game.register(human);
+
+        Assertions.assertThrows(NotRegisteredException.class, () -> game.round("мутант", "гуманоид"));
     }
 }
